@@ -1,0 +1,11 @@
+#start {
+    display: block;
+}
+
+#quiz {
+    display: none;
+}
+
+#end {
+    display: none;
+}
