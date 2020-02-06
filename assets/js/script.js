@@ -3,15 +3,16 @@ var startDiv = document.getElementById("start");
 var quizDiv = document.getElementById("quiz");
 var endDiv = document.getElementById("end");
 
+var leaderBoard = document.getElementById("leaderBoard");
 var yourScoreEl = document.getElementById("yourScore");
 var initialsEl = document.getElementById("initials");
-var maxScoreEl = document.querySelectorAll(".maxScore");
-var maxScoreInitialsEl = document.querySelectorAll(".maxScoreInitials");
+var maxScoreEl = "";
+var maxScoreInitialsEl = "";
 var count = 0;
 var timeEl = document.getElementById("time");
 var secondsLeft = 0;
-var score = 0;
-var initials = "";
+var yourScore = 0;
+var yourInitials = "";
 
 var questionEl = document.getElementById("question");
 var answer1El = document.getElementById("answer1");
@@ -25,7 +26,12 @@ document.getElementById("save").addEventListener("click", save);
 var questions = questionsArr;
 var questionsUsed = [];
 
-var maxScore;
+var maxScore = localStorage.getItem("maxScore");
+var maxScoreInitials = localStorage.getItem("maxScoreInitials");
+
+if(maxScore) {
+leaderBoard.innerHTML = "Time to beat: " + maxScoreInitials + "'s time of " + maxScore + " seconds."
+};
 
 function startTimer() {
     secondsLeft = 60;
@@ -85,11 +91,15 @@ function startQuiz() {
 }
 
 function endQuiz(score) {
-    yourScoreEl.textContent = score;
-    initialsEl.textContent = initials;
-    maxScoreEl.textContent = localStorage.getItem("maxScore");
-    maxScoreInitialsEl.textContent = localStorage.getItem("maxScoreInitials");
-    questionsUsed = [];
+    yourScore = score;
+    yourScoreEl.textContent = yourScore;
+    initialsEl.textContent = yourInitials;
+    maxScore = localStorage.getItem("maxScore");
+    maxScoreInitials = localStorage.getItem("maxScoreInitials");
+
+    if(yourScore > maxScore) {
+        document.getElementById("initials").style.display = "block";
+    }
 
     quizDiv.style.display = "none";
     endDiv.style.display = "block";
@@ -97,18 +107,14 @@ function endQuiz(score) {
 
 function save() {
 
-    console.log(maxScoreEl.textContent);
+    yourInitials = document.getElementById("initials").value;
 
-    if(localStorage.getItem(maxScore)) {
-
-    if(score > maxScoreEl.textContent && score > 0) {
-        localStorage.setItem("maxScore", score);
-        localStorage.setItem("maxScoreInitials", initials);
-    }
-    }
-    endDiv.style.display = "none";
-    startDiv.style.display = "block";
-
-    var questions = questionsArr;
-    var questionsUsed = [];
+        if(yourScore > maxScore) {
+            maxScore = yourScore;
+            maxScoreInitials = yourInitials;
+            localStorage.setItem("maxScore", yourScore);
+            localStorage.setItem("maxScoreInitials", yourInitials);
+        }
+    
+    window.location.href = "index.html";
 }
