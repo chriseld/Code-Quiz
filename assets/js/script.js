@@ -1,3 +1,5 @@
+// initialize global variables
+
 var startEl = document.getElementById("startBtn");
 var startDiv = document.getElementById("start");
 var quizDiv = document.getElementById("quiz");
@@ -21,17 +23,31 @@ var answer3El = document.getElementById("answer3");
 var answer4El = document.getElementById("answer4");
 var resultEl = document.getElementById("result");
 
-document.getElementById("save").addEventListener("click", save);
-
 var questions = questionsArr;
 var questionsUsed = [];
 
 var maxScore = localStorage.getItem("maxScore");
 var maxScoreInitials = localStorage.getItem("maxScoreInitials");
 
+// listen for save button press after completion of quiz
+
+document.getElementById("save").addEventListener("click", save);
+
+// if a maxScore is found in localstorage, displays time to beat and the score leader's initials
+
 if(maxScore) {
 leaderBoard.innerHTML = "Time to beat: " + maxScoreInitials + "'s time of " + maxScore + " seconds."
 };
+
+// starts the quiz
+
+function startQuiz() {
+    startDiv.style.display = "none";
+    startTimer();
+    quizDiv.style.display = "block";
+}
+
+// initializes the countdown timer and gets the first question
 
 function startTimer() {
     secondsLeft = 60;
@@ -47,6 +63,8 @@ function startTimer() {
     getQuestion();
     
 }
+
+// gets the questions and responses. if there are no questions left, the quiz ends
 
 function getQuestion() {
     if(questions.length === questionsUsed.length) {
@@ -64,6 +82,8 @@ function getQuestion() {
         answer4El.textContent = questionPicked.choices[3];
     }
 }
+
+// checks whether the chosen option was correct, then gets the next question
 
 function choice(btnId) {
     var choices = questions[count];
@@ -83,12 +103,7 @@ function choice(btnId) {
     }
 }
 
-
-function startQuiz() {
-    startDiv.style.display = "none";
-    startTimer();
-    quizDiv.style.display = "block";
-}
+// ends the quiz and, if a high score was achieved, prompts for initials
 
 function endQuiz(score) {
     yourScore = score;
@@ -104,6 +119,8 @@ function endQuiz(score) {
     quizDiv.style.display = "none";
     endDiv.style.display = "block";
 }
+
+// saves the new high score, if applicable. Then restarts the game
 
 function save() {
 

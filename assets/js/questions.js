@@ -1,3 +1,5 @@
+ // sets the questions to be asked
+ 
  var questionsArr = [
 {
     question: "What characters denote an object?",
