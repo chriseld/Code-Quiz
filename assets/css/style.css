@@ -13,3 +13,15 @@
 #initials {
     display: none;
 }
+
+.btn {
+    border-radius: 90;
+    border: 2px solid black;
+    background-color: blueviolet;
+}
+
+.btn:hover {
+    background-color: grey;
+    color: white;
+    border: 2px solid white;
+}
